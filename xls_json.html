@@ -43,7 +43,9 @@
               let jsonObject = JSON.stringify(rowObject);
               //var obj = JSON.parse(jsonObject);
               //console.log(typeof jsonObject);
+              //En la linea siguiente esta e problema, no presenta el innerHTML
               document.querySelector("pre").innerHTML = JSON.parse(jsonObject) ;
+              //Si lo elecutas con document.write fonciona
               //document.write(jsonObject);
               console.log(jsonObject);
             });
