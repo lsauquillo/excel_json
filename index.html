@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Excel a JSON</title>
+	 <script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
+     <link rel="stylesheet" href="style.css">
+</head>
+<body>
+	<h2>Seleccinar un archivo</h2>
+	<input type="file" id="myFile" accept=".xls,.xlsx" />
+	<button type="button" id="myJSON">Convert1r</button>
+    <pre id="jsonData"></pre>
+    <script>
+    	var selectedFile;
+    	document.getElementById("myFile").addEventListener("change", function(event) {
+        	selectedFile = event.target.files[0];
+      		});
+        document.getElementById("myJSON").addEventListener("click",
+            function(){
+                console.log('Hi ' + selectedFile.name);
+                var fileReader = new FileReader();  
+                fileReader.onload = function(e){
+                    var data = e.target.result;
+                    var workbook = XLSX.read(data, {type: "binary"});
+                    console.log(workbook);
+                    workbook.SheetNames.forEach(function(sheet){
+                     let jsonObject = XLSX.utils.sheet_to_json(
+                            workbook.Sheets[sheet]);
+                     var datos = JSON.stringify(jsonObject);
+                     console.log(datos);
+                     document.getElementById('jsonData').innerHTML += JSON.stringify(jsonObject);                
+                     });                    
+                };
+                fileReader.readAsBinaryString(selectedFile);
+                
+            })
+    </script>
+</body>
+</html>
